@@ -1,0 +1,8 @@
+sources:
+  - name: github
+    database: snowflake_curated_data
+    schema: public_data_free
+    tables:
+      - name: github_events
+      - name: github_repos
+      - name: github_stars
