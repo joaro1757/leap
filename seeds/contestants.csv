@@ -1,0 +1,6 @@
+repo_id,tool,camp
+53548867,dbt Core,Snowflake & dbt
+158256479,Apache Iceberg,Snowflake & dbt
+17165658,Apache Spark,Databricks
+182849188,Delta Lake,Databricks
+138754790,DuckDB,Independent
