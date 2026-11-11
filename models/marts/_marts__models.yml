@@ -1,21 +1,45 @@
 models:
   - name: dim_repos
+    description: One row per contestant repo, with its current name and the tool and camp it represents.
     columns: 
       - name: repo_id
+        description: GitHub's identifier for the repo.
         data_tests:
           - unique
           - not_null
       - name: repo_name
+        description: The repo's current name, taken as the name most recently seen in the event data.
         data_tests:
           - not_null
+      - name: tool
+        description: Display name of the tool the repo belongs to.
+      - name: camp
+        description: The side the tool is on in the contest.
 
   - name: fct_events
+    description: >
+      One row per public GitHub event on a contestant repo, such as a push, star, fork, or comment.
+      Loaded incrementally by load date and deduplicated on event_key.
     columns: 
       - name: event_key
+        description: >
+          Unique key for the event, hashed from id and created_at_timestamp.
+          Needed as the source has reused ids across different events.
         data_tests:
           - unique
           - not_null
+      - name: id
+        description: GitHub's identifier for the event. Not unique in the source.
+      - name: created_at_timestamp
+        description: When the event took place (UTC).
+      - name: type
+        description: The kind of event, such as PushEvent, WatchEvent (a star), or ForkEvent.
+      - name: actor_id
+        description: Identifier of the account that triggered the event.
+      - name: actor_login
+        description: Login name of the account that triggered the event.
       - name: repo_id
+        description: The repo the event happened on.
         data_tests:
           - not_null
           - relationships:
@@ -23,12 +47,29 @@ models:
                 to: ref('dim_repos')
                 field: repo_id
 
+      - name: payload_action
+        description: The action within the event type, such as opened, closed, or started.
+      - name: load_date
+        description: Date the event arrived in the source. Empty for events before February 2023.
+      - name: is_bot
+        description: 1 if the actor's login ends in [bot], which is how GitHub marks app accounts. Otherwise 0.
+      - name: is_weekend
+        description: 1 if the event took place on a Saturday or Sunday in UTC. Otherwise 0.
+      - name: is_christmas
+        description: 1 if the event took place on 24, 25, or 26 December in UTC. Otherwise 0.
+
   - name: fct_repo_stars_daily
+    description: One row per contestant repo per date, with the stars gained that day. Pre-aggregated by the data provider
     columns:
       - name: repo_id
+        description: The repo that received the stars.
         data_tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_repos')
                 field: repo_id
+      - name: date
+        description: The date the stars were given.
+      - name: star_count
+        description: Number of stars added to the repo on that date.
