@@ -1,8 +1,15 @@
 sources:
   - name: github
+    description: >
+      Public GitHub activity from the Snowflake Curated Data listing on the Snowflake Marketplace.
     database: snowflake_curated_data
     schema: public_data_free
     tables:
       - name: github_events
+        description: One row per public GitHub event, such as a push, star, fork, or comment.
       - name: github_repos
+        description: >
+          One row per name a repo has had, with the first and last date the name was seen.
+          A renamed repo has several rows with the same repo_id.
       - name: github_stars
+        description: One row per repo per date, with the number of stars added that day. Aggregated by the provider from github_events.
