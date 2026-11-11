@@ -1,6 +1,7 @@
-{{ config(materialized='incremental', unique_key='id') }}
+{{ config(materialized='incremental', unique_key='event_key') }}
 
 select 
+    e.event_key,
     e.id,
     e.created_at_timestamp,
     e.type,

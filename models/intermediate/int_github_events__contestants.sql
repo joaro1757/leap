@@ -1,4 +1,5 @@
 select 
+    md5(e.id || '-' || date_part(epoch_second, e.created_at_timestamp)) as event_key,
     e.id,
     e.created_at_timestamp,
     e.type,
@@ -15,3 +16,5 @@ from
 inner join 
     {{ ('contestants') }} c
     using(repo_id)
+qualify 
+    row_number () over (partition by event_key order by e.load_date desc nulls last) = 1
