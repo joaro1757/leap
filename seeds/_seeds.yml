@@ -1,0 +1,13 @@
+seeds:
+  - name: contestants
+    columns:
+      - name: repo_id
+        data_tests:
+          - unique
+          - not_null
+      - name: camp 
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Snowflake & dbt', 'Databricks', 'Independent']
+                

@@ -1,0 +1,34 @@
+models:
+  - name: dim_repos
+    columns: 
+      - name: repo_id
+        data_tests:
+          - unique
+          - not_null
+      - name: repo_name
+        data_tests:
+          - not_null
+
+  - name: fct_events
+    columns: 
+      - name: event_key
+        data_tests:
+          - unique
+          - not_null
+      - name: repo_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_repos')
+                field: repo_id
+
+  - name: fct_repo_stars_daily
+    columns:
+      - name: repo_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_repos')
+                field: repo_id
