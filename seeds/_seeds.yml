@@ -1,11 +1,16 @@
 seeds:
   - name: contestants
+    description: The five open-source repos competing in the popularity contest. Maintained manually.
     columns:
       - name: repo_id
+        description: GitHub's identifier for the repo. Used instead of the name as repos get renamed.
         data_tests:
           - unique
           - not_null
+      - name: tool
+        description: Display name of the tool the repo belongs to.
       - name: camp 
+        description: The side the tool is on in the contest.
         data_tests:
           - accepted_values:
               arguments:

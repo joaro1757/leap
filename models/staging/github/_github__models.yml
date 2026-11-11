@@ -1,0 +1,45 @@
+models:
+  - name: stg_github__events
+    description: >
+      One row per public GitHub event, limited to the columns needed downstream. No filtering or deduplication.
+    columns:
+      - name: id
+        description: GitHub's identifier for the event. Not unique in the source.
+      - name: created_at_timestamp
+        description: When the event took place (UTC).
+      - name: type
+        description: The type of event, such as PushEvent, WatchEvent (a star), or ForkEvent.
+      - name: actor_id
+        description: Identifier of the account that triggered the event.
+      - name: actor_login
+        description: Login name of the account that triggered the event.
+      - name: repo_id
+        description: Identifier of the repo the event happened on.
+      - name: repo_name
+        description: The repo's name at the time of the event. Changes when a repo is renamed.
+      - name: payload_action
+        description: The action within the event type, such as opened, closed, or started.
+      - name: load_date
+        description: Date the event arrived in the source. Non-null since February 2023.
+
+  - name: stg_github__repos
+    description: One row per name a repo has had.
+    columns:
+      - name: repo_id
+        description: Identifier of the repo.
+      - name: repo_name
+        description: A name the repo has had.
+      - name: first_seen
+        description: First date the name appeared in the event data.
+      - name: last_seen
+        description: Last date the name appeared in the event data.
+
+  - name: stg_github__stars
+    description: One row per repo per date, with the stars added that day.
+    columns:
+      - name: repo_id
+        description: Identifier of the repo.
+      - name: date
+        description: The date the stars were given.
+      - name: star_count
+        description: Number of stars added to the repo on that date. Renamed from count in the source.

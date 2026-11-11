@@ -1,0 +1,40 @@
+models:
+  - name: int_github_repos__latest_name
+    description: >
+      One row per repo with its current name, chosen as the name with the most recent last_seen date.
+    columns:
+      - name: repo_id
+        description: Identifier of the repo.
+      - name: repo_name
+        description: The repo's current (latest) name.
+
+  - name: int_github_events__contestants
+    description: >
+      One row per event on a contestant repo. Narrows the events to the repos in the contestants seed,
+      removes duplicates, adds a unique key, and flags bot, weekend, and Christmas activity.
+    columns:
+      - name: event_key
+        description: >
+          Unique key for the event, hashed from id and created_at_timestamp.
+      - name: id
+        description: GitHub's identifier for the event. Not unique in the source.
+      - name: created_at_timestamp
+        description: When the event took place (UTC).
+      - name: type
+        description: The kind of event, such as PushEvent, WatchEvent (a star), or ForkEvent.
+      - name: actor_id
+        description: Identifier of the account that triggered the event.
+      - name: actor_login
+        description: Login name of the account that triggered the event.
+      - name: repo_id
+        description: Identifier of the repo the event happened on.
+      - name: payload_action
+        description: The action within the event type, such as opened, closed, or started.
+      - name: load_date
+        description: Date the event arrived in the source. Non-null since February 2023.
+      - name: is_bot
+        description: 1 if the actor's login ends in [bot], which is how GitHub marks app accounts. Otherwise 0.
+      - name: is_weekend
+        description: 1 if the event took place on a Saturday or Sunday in UTC. Otherwise 0.
+      - name: is_christmas
+        description: 1 if the event took place on 24, 25, or 26 December in UTC. Otherwise 0.
