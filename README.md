@@ -1,6 +1,6 @@
-# star_wars
+# leap
 
-A Snowflake and dbt project which compares the GitHub activity of five open-source data tools.
+Star wars; a Snowflake and dbt project which compares the GitHub activity of five open-source data tools.
 
 ## The contest
 
