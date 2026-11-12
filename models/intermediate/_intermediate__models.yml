@@ -21,7 +21,7 @@ models:
       - name: created_at_timestamp
         description: When the event took place (UTC).
       - name: type
-        description: The kind of event, such as PushEvent, WatchEvent (a star), or ForkEvent.
+        description: The kind of event, such as PushEvent, WatchEvent (a star), or a ForkEvent.
       - name: actor_id
         description: Identifier of the account that triggered the event.
       - name: actor_login
