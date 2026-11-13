@@ -7,8 +7,16 @@ from
 inner join
     {{ ref('dim_repos') }} r
     using (repo_id)
-where
+where 
     f.is_bot = 0
+    and f.type in (
+        'PushEvent',
+        'PullRequestEvent',
+        'PullRequestReviewEvent',
+        'PullRequestReviewCommentEvent',
+        'IssuesEvent',
+        'IssueCommentEvent'
+    )
 group by 
     all
 order by

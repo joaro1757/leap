@@ -8,6 +8,14 @@ with daily as (
         {{ ref('fct_events') }} f
     where 
         f.is_bot = 0
+        and f.type in (
+            'PushEvent',
+            'PullRequestEvent',
+            'PullRequestReviewEvent',
+            'PullRequestReviewCommentEvent',
+            'IssuesEvent',
+            'IssueCommentEvent'
+        )
     group by 
         all
 )
