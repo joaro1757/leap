@@ -1,7 +1,7 @@
-name: star_wars
+name: leap
 profile: default
 
 models:
-  star_wars:
+  leap:
     marts:
       +materialized: table
